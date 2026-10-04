@@ -29,7 +29,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='Strikers-Patcher',
+    name='Krusty-Krab-Patcher',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -48,11 +48,11 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='Strikers-Patcher',
+    name='Krusty-Krab-Patcher',
 )
 app = BUNDLE(
     coll,
-    name='Strikers-Patcher.app',
+    name='Krusty-Krab-Patcher.app',
     icon=ICON,
     bundle_identifier='net.quatric.strikers-patcher',
 )

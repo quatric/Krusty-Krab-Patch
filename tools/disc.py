@@ -50,7 +50,7 @@ def read_disc_id(fst):
     return header[0:6].decode('ascii', 'replace'), header[7]
 
 
-def run_patch(image_path, log, done, which=('cc', 'gc')):
+def run_patch(image_path, log, done, which=('pad',)):
     """Patch `image_path` in place.  `which` names the features."""
     try:
         wit = find_wit()
@@ -62,7 +62,7 @@ def run_patch(image_path, log, done, which=('cc', 'gc')):
             raise RuntimeError('nothing selected: tick at least one patch')
         fmt = '--iso' if image_path.lower().endswith('.iso') else '--wbfs'
 
-        with tempfile.TemporaryDirectory(prefix='strikers_patch_') as tmp:
+        with tempfile.TemporaryDirectory(prefix='krusty_krab_patch_') as tmp:
             fst = os.path.join(tmp, 'fst')
             log('extracting %s...' % os.path.basename(image_path))
             r = subprocess.run([wit, 'extract', image_path, '--dest', fst, '--psel', 'data',
@@ -83,7 +83,7 @@ def run_patch(image_path, log, done, which=('cc', 'gc')):
             # the two European discs share an id and version: the main.dol tells them apart
             region = patcher.detect_region(dol, disc_id)
             if region is None:
-                raise RuntimeError('%s is not a Mario Strikers Charged release this patcher knows (or its main.dol is '
+                raise RuntimeError('%s is not a Creature from the Krusty Krab release this patcher knows (or its main.dol is '
                                    'already modified by something else).\n\nSupported: %s' % (disc_id, ', '.join(
                                        '%s (%s)' % (v['disc_id'], v['short']) for v in REGIONS.values())))
             log('disc: %s (%s)' % (disc_id, REGIONS[region]['label']))

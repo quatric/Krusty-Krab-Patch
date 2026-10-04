@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Check the patch data against real, retail main.dol files.
 
-    STRIKERS_DOLS=<dir with R4QE01.dol R4QP01_rev1.dol R4QP01_rev2.dol R4QJ01.dol> python3 tools/verify.py
+    KRUSTY_DOLS=<dir with RQ4E78.dol RQ4P78.dol> python3 tools/verify.py
 
 For every region and every combination of the two patches:
   * every site holds the retail bytes before patching
@@ -34,10 +34,10 @@ def check(cond, msg):
 
 
 def retail(region):
-    base = os.environ.get('STRIKERS_DOLS')
+    base = os.environ.get('KRUSTY_DOLS')
     p = os.path.join(base or '.', region + '.dol')
     if not os.path.exists(p):
-        sys.exit('set STRIKERS_DOLS to a directory holding %s.dol' % region)
+        sys.exit('set KRUSTY_DOLS to a directory holding %s.dol' % region)
     return p
 
 

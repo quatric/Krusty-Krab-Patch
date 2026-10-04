@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Drag-and-drop patcher: drop an Mario Strikers Charged disc image on the window, done.
+"""Drag-and-drop patcher: drop a Creature from the Krusty Krab disc image on the window, done.
 
 Extracts the disc, patches its own main.dol for the options you tick, and
 rebuilds the image in the same format.  The rebuilt image replaces the original
@@ -36,7 +36,7 @@ BASE = TkinterDnD.Tk if HAVE_DND else tk.Tk
 class App(BASE):
     def __init__(self):
         super().__init__()
-        self.title('Strikers-Patcher')
+        self.title('Krusty-Krab-Patcher')
         self.geometry('620x600')
         self.msgq = queue.Queue()
         self.busy = False
@@ -47,15 +47,13 @@ class App(BASE):
             tk.Label(self, image=self.logo).pack(pady=(10, 0))
         except Exception:                              # the window is fine without its logo
             pass
-        tk.Label(self, text='USA / Europe / Japan',
+        tk.Label(self, text='USA / Europe',
                  font=('Helvetica', 12, 'bold')).pack(pady=(4, 6))
 
         opts = tk.LabelFrame(self, text='Patches')
         opts.pack(fill='x', padx=10)
-        self.cc = tk.BooleanVar(value=True)
-        tk.Checkbutton(opts, text='Classic Controller', variable=self.cc).pack(anchor='w')
-        self.gc = tk.BooleanVar(value=True)
-        tk.Checkbutton(opts, text='GameCube controller (all four ports)', variable=self.gc).pack(anchor='w')
+        self.pad = tk.BooleanVar(value=True)
+        tk.Checkbutton(opts, text='Classic Controller and GameCube controller', variable=self.pad).pack(anchor='w')
 
         hint = ('Drop a .wbfs or .iso here\n\n(or click to choose one)'
                 if HAVE_DND else 'Click to choose a .wbfs or .iso')
@@ -115,7 +113,7 @@ class App(BASE):
         if not os.path.isfile(image_path):
             messagebox.showerror('Not a file', '%s is not a file.' % image_path)
             return
-        which = [n for n, v in (('cc', self.cc), ('gc', self.gc)) if v.get()]
+        which = [n for n, v in (('pad', self.pad),) if v.get()]
         if not which:
             messagebox.showerror('Nothing selected', 'Tick at least one patch.')
             return

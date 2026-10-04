@@ -17,14 +17,11 @@ from regions import REGIONS
 ROOT = os.path.join(HERE, '..')
 
 CREDIT = {
-    'cc': 'Vague Rant',
-    'gc': 'quatric',
+    'pad': 'quatric',
 }
 BLURB = {
-    'cc': ['Play with a Classic Controller (it is treated as a Nunchuk, with a Wii Remote pointer emulated from the sticks).',
-           'Needs a Wii Remote with a Classic Controller attached.'],
-    'gc': ['Play with GameCube controllers in any of the four ports; no Wii Remote needed.',
-           'Hold L+R+Start for the HOME menu.'],
+    'pad': ['Play with a Classic Controller or a GameCube controller: either one is presented to the game as a Wii Remote and Nunchuk.',
+            'Hold L+R+Start on a GameCube controller for the HOME menu.'],
 }
 COMBINED_WARNING = [
     '*These codes keep a few helper routines and variables in low memory at 0x80001820-0x80003000.',
@@ -50,7 +47,7 @@ def gecko_ini(region):
 
 def riivolution_xml(region):
     r = REGIONS[region]
-    out = ['<!-- %s: Classic Controller codes by Vague Rant, GameCube controller support by quatric -->' % r['label'],
+    out = ['<!-- %s: Classic Controller and GameCube controller support by quatric -->' % r['label'],
            '<wiidisc version="1" root="/">',
            '  <id game="%s" version="0" />' % r['disc_id'],
            '  <options>',

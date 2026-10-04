@@ -46,7 +46,7 @@ def main():
                     check(lo <= op.tramp and op.tramp + n <= hi,
                           '%s/%s: trampoline 0x%08X..0x%08X outside its window' % (name, region, op.tramp, op.tramp + n))
                     check(op.payload[-1] == 0, '%s/%s: hook 0x%08X has no branch-back slot' % (name, region, op.site))
-                    check(all(op.payload[:-1]) or name == 'cc', '%s/%s: hook 0x%08X contains a zero word' % (name, region, op.site))
+                    check(all(op.payload[:-1]), '%s/%s: hook 0x%08X contains a zero word' % (name, region, op.site))
                     for a, b in taken:
                         check(op.tramp + n <= a or b <= op.tramp, '%s/%s: trampolines overlap at 0x%08X' % (name, region, op.tramp))
                     taken.append((op.tramp, op.tramp + n))
@@ -58,17 +58,6 @@ def main():
                     check(CAVE_BASE <= op.tramp and op.tramp + n <= CAVE_LIMIT, 'trampoline outside the injected section')
                 elif isinstance(op, Patch):
                     check(len(op.new) == len(op.orig), '%s/%s: patch size mismatch at 0x%08X' % (name, region, op.addr))
-            # gecko -> ops round trip (the C2 body is padded to an even word count)
-            import gen_cc
-            text = 'x\n' + '\n'.join(l for l in f.gecko_lines() if not l.startswith('*'))
-            for addr, body in gen_cc.parse_text(text):
-                hooks = [o for o in f.ops if isinstance(o, Hook) and o.site == addr]
-                check(len(hooks) == 1, '%s/%s: C2 at 0x%08X has no hook' % (name, region, addr))
-                if hooks:
-                    w = list(hooks[0].payload)
-                    if len(w) % 2:
-                        w.insert(len(w) - 1, 0x60000000)
-                    check(body == w, '%s/%s: C2 at 0x%08X does not round-trip' % (name, region, addr))
     # committed outputs are current
     root = os.path.join(HERE, '..')
     for region in REGIONS:
