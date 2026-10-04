@@ -22,7 +22,6 @@ release in Dolphin, and a real Wii.
 
 **Known limits:**
 
-- no pad can drive the game's pointer; the game does not use one for play
 - plug the GameCube pad in **before** starting the game
 - the Wii Remote's own motion gestures are not read from a pad: they are
   played back as accelerometer motion when you press their button (see below)
